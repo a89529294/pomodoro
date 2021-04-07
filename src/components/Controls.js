@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
 
-import { modeObj } from '../constants';
 import { useModeDispatch, useModeStore } from '../contexts/useModeStore';
+import { useThemeStore } from '../contexts/useThemeStore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,21 +10,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  controlBar: {
-    backgroundColor: theme.backgroundControlBar,
+  controlBar: (props) => ({
+    backgroundColor: props.backgroundControlBar,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '8px 6px',
     borderRadius: '31.5px',
-  },
-  controlButton: {
+  }),
+  controlButton: (props) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: theme.fontFamilyOne,
+    fontFamily: props.fontFamilyOne,
     fontSize: '12px',
-    color: theme.textColorOne,
+    color: props.textColorOne,
     opacity: 0.4,
     borderRadius: '26.5px',
     padding: '18px 23px',
@@ -32,39 +32,42 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       opacity: 1,
     },
-  },
-  active: {
-    backgroundColor: theme.activeColor,
+  }),
+  active: (props) => ({
+    backgroundColor: props.activeColor,
     opacity: 1,
-    color: theme.background,
-  },
+    color: props.background,
+  }),
 }));
 
-const ControlButton = ({ label }) => {
-  const classes = useStyles();
-  const mode = useModeStore();
+const ControlButton = ({ state }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
   const dispatch = useModeDispatch();
+  const mode = useModeStore();
+  const currentModeLabel = mode.currentMode.label;
 
   return (
     <div
       className={`${classes.controlButton} ${
-        mode === label ? classes.active : ''
+        currentModeLabel === state.label ? classes.active : ''
       }`}
-      onClick={() => dispatch(label)}
+      onClick={() => dispatch(state)}
     >
-      {label}
+      {state.label}
     </div>
   );
 };
 
 export default function Controls() {
   const classes = useStyles();
+  const mode = useModeStore();
   return (
     <div className={classes.root}>
       <div className={classes.controlBar}>
-        <ControlButton label={modeObj.pomodoro} />
-        <ControlButton label={modeObj.shortBreak} />
-        <ControlButton label={modeObj.longBreak} />
+        <ControlButton state={mode.modesObj.pomodoro} />
+        <ControlButton state={mode.modesObj.shortBreak} />
+        <ControlButton state={mode.modesObj.longBreak} />
       </div>
     </div>
   );

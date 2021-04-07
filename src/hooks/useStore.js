@@ -5,7 +5,10 @@ export default function makeStore(userReducer, initialState, key) {
   const storeContext = createContext();
 
   try {
-    initialState = JSON.parse(localStorage.getItem(key)) || initialState;
+    const valueFromStorage = JSON.parse(localStorage.getItem(key));
+    initialState = valueFromStorage || initialState;
+    if (!valueFromStorage)
+      localStorage.setItem(key, JSON.stringify(initialState));
   } catch {}
 
   const reducer = (state, action) => {

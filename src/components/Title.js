@@ -1,21 +1,23 @@
 import { makeStyles } from '@material-ui/styles';
+import { useThemeStore } from '../contexts/useThemeStore';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     height: '8.4%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
-  title: {
-    fontFamily: theme.fontFamilyOne,
+  title: (props) => ({
+    fontFamily: props.fontFamilyForTitle,
     fontSize: '24px',
-    color: theme.textColorOne,
-  },
-}));
+    color: props.textColorOne,
+  }),
+});
 
 export default function Title() {
-  const classes = useStyles();
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
   return (
     <div className={classes.root}>
       <div className={classes.title}>pomodoro</div>
