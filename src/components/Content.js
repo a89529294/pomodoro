@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import usePortal from 'react-useportal';
 
 import settingsIcon from '../assets/icon-settings.svg';
 import { useThemeStore } from '../contexts/useThemeStore';
@@ -66,7 +67,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   }),
   durationSingleChar: {
-    width: '23%',
+    width: '22%',
     display: 'flex',
     justifyContent: 'center',
     '&:nth-child(3)': {
@@ -97,6 +98,13 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  portal: {
+    position: 'fixed',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%,-50%)',
+    zIndex: 1000,
+  },
 });
 
 const clockStateEnum = {
@@ -115,6 +123,7 @@ const Clock = () => {
   const [currentDuration, setCurrentDuration] = useState(
     mode.currentMode.maxDuration
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const myTheme = { ...theme, progress };
   const classes = useStyles(myTheme);
@@ -175,8 +184,10 @@ const Clock = () => {
             <div className={classes.duration}>
               {convertSecondsIntoMinutes(currentDuration)
                 .split('')
-                .map((char) => (
-                  <div className={classes.durationSingleChar}>{char}</div>
+                .map((char, i) => (
+                  <div className={classes.durationSingleChar} key={i}>
+                    {char}
+                  </div>
                 ))}
             </div>
             <div className={classes.durationControlContainer}>
@@ -197,16 +208,37 @@ const Clock = () => {
 export default function Content() {
   const theme = useThemeStore();
   const classes = useStyles(theme);
+  var { openPortal, closePortal, isOpen, Portal } = usePortal({
+    onOpen({ portal }) {
+      portal.current.style.cssText = `
+        /* add your css here for the Portal */
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        z-index: 1000;
+      `;
+    },
+  });
   return (
     <div className={classes.root}>
       <Clock />
-      <div className={classes.settingsIconContainer}>
+      <div className={classes.settingsIconContainer} onClick={openPortal}>
         <img
           src={settingsIcon}
           alt="settings icon"
           className={classes.settingsIcon}
         />
       </div>
+      {isOpen && (
+        <Portal className={classes.portal}>
+          <p>
+            This Portal handles its own state.{' '}
+            <button onClick={closePortal}>Close me!</button>, hit ESC or click
+            outside of me.
+          </p>
+        </Portal>
+      )}
     </div>
   );
 }
