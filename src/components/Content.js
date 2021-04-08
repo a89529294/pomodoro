@@ -63,8 +63,6 @@ export default function Content() {
   const modalRef = useRef();
 
   const handleClickOutsideModal = (e) => {
-    console.log(modalRef.current);
-    console.log(e.target);
     if (!modalRef?.current?.contains(e.target)) setIsOpen(false);
   };
 

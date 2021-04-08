@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import Portal from './Portal';
@@ -7,9 +7,12 @@ import { useModeStore } from '../contexts/useModeStore';
 import closeIcon from '../assets/icon-close.svg';
 import arrowUp from '../assets/icon-arrow-up.svg';
 import arrowDown from '../assets/icon-arrow-down.svg';
+import checkMark from '../assets/checkMark.svg';
 
 const mobileSettingsModalPadding = '24px';
 const mobileSettingsModalPaddingLarge = '28px';
+const letterSpacing = '4px';
+const inputBackgroundColor = '#EFF1FA';
 
 const greyBorder = '1px solid #E3E1E1';
 
@@ -36,17 +39,13 @@ const useStyles = makeStyles({
     color: props.backgroundControlBar,
   }),
   modalBody: {},
-  sectionOne: {
+  section: {
     padding: mobileSettingsModalPadding,
-    paddingBottom: 0,
-  },
-  sectionContent: {
-    borderBottom: greyBorder,
   },
   sectionOneHeader: (props) => ({
     fontSize: '11px',
     fontFamily: props.fontFamilyOne,
-    letterSpacing: '4px',
+    letterSpacing: letterSpacing,
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '18px',
@@ -60,7 +59,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     marginBottom: '8px',
     '&:last-child': {
-      marginBottom: mobileSettingsModalPadding,
+      marginBottom: 0,
     },
   },
   durationSetterLabel: (props) => ({
@@ -76,7 +75,7 @@ const useStyles = makeStyles({
     fontFamily: props.fontFamilyOne,
     fontSize: '14px',
     width: '140px',
-    backgroundColor: '#EFF1FA',
+    backgroundColor: inputBackgroundColor,
     borderRadius: '10px',
     padding: '12px 16px',
   }),
@@ -100,7 +99,90 @@ const useStyles = makeStyles({
       marginBottom: '9px',
     },
   },
+  settingPartial: {
+    padding: mobileSettingsModalPadding,
+    paddingTop: 0,
+  },
+  settingPartialContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderTop: greyBorder,
+  },
+  settingPartialHeader: (props) => ({
+    fontFamily: props.fontFamilyOne,
+    fontSize: '11px',
+    letterSpacing: letterSpacing,
+    color: props.backgroundControlBar,
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '18px',
+    marginTop: mobileSettingsModalPadding,
+  }),
+  settingPartialContent: {
+    width: '152px',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  circle: (props) => ({
+    width: '40px',
+    height: '40px',
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: props.background,
+    fontSize: '15px',
+    backgroundColor: inputBackgroundColor,
+    '& span': {
+      opacity: 0.73,
+    },
+    '&.active': {
+      backgroundColor: props.backgroundControlBar,
+      color: 'white',
+    },
+  }),
+  checkMark: {
+    width: '15px',
+    height: '10px',
+  },
 });
+
+const ModalHeader = ({ setIsOpen }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+  return (
+    <div className={classes.modalHeader}>
+      <div>Settings</div>
+      <img
+        src={closeIcon}
+        alt="close icon"
+        className={classes.settingsCloseIcon}
+        onClick={() => setIsOpen(false)}
+      />
+    </div>
+  );
+};
+
+const ModalBody = ({ children }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+  return <div className={classes.modalBody}>{children}</div>;
+};
+
+const DurationSetting = () => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+  const mode = useModeStore();
+  return (
+    <div className={classes.section}>
+      <div className={classes.sectionOneHeader}>TIME(MINUTES)</div>
+      <MaxDurationSetter mode={mode.modesObj.pomodoro} />
+      <MaxDurationSetter mode={mode.modesObj.shortBreak} />
+      <MaxDurationSetter mode={mode.modesObj.longBreak} />
+    </div>
+  );
+};
 
 const MaxDurationSetter = ({ mode }) => {
   const theme = useThemeStore();
@@ -130,34 +212,115 @@ const MaxDurationSetter = ({ mode }) => {
   );
 };
 
+const SettingPartial = ({ children, title }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+  return (
+    <div className={classes.settingPartial}>
+      <div className={classes.settingPartialContainer}>
+        <div className={classes.settingPartialHeader}>{title}</div>
+        <div className={classes.settingPartialContent}>{children}</div>
+      </div>
+    </div>
+  );
+};
+
+const FontCircle = ({ fontFamily, setSelectedFont, selectedFont }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+
+  const handleSelectFont = () => {
+    setSelectedFont(fontFamily);
+  };
+
+  return (
+    <div
+      className={`${classes.circle} ${
+        fontFamily === selectedFont ? 'active' : ''
+      }`}
+      style={{ fontFamily }}
+      onClick={handleSelectFont}
+    >
+      <span>Aa</span>
+    </div>
+  );
+};
+
+const ColorCircle = ({ backgroundColor, selectedColor, setSelecedColor }) => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+
+  const handleSelectColor = () => {
+    setSelecedColor(backgroundColor);
+  };
+
+  return (
+    <div
+      className={classes.circle}
+      style={{ backgroundColor }}
+      onClick={handleSelectColor}
+    >
+      {selectedColor === backgroundColor && (
+        <img
+          src={checkMark}
+          alt="check mark svg"
+          className={classes.checkMark}
+        />
+      )}
+    </div>
+  );
+};
+
 const Modal = forwardRef(({ setIsOpen }, ref) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
-  const mode = useModeStore();
+
+  const [selectedFont, setSelectedFont] = useState(theme.fontFamily.kumbhSans);
+  const [selectedColor, setSelecedColor] = useState(
+    theme.colorFamily.salmonRed
+  );
+
   return (
     <Portal>
       <div className={classes.modal} ref={ref}>
-        <div className={classes.modalHeader}>
-          <div>Settings</div>
-          <img
-            src={closeIcon}
-            alt="close icon"
-            className={classes.settingsCloseIcon}
-            onClick={() => setIsOpen(false)}
-          />
-        </div>
-        <div className={classes.modalBody}>
-          <div className={classes.sectionOne}>
-            <div className={classes.sectionContent}>
-              <div className={classes.sectionOneHeader}>TIME(MINUTES)</div>
-              <MaxDurationSetter mode={mode.modesObj.pomodoro} />
-              <MaxDurationSetter mode={mode.modesObj.shortBreak} />
-              <MaxDurationSetter mode={mode.modesObj.longBreak} />
-            </div>
-          </div>
-          <div className={classes.sectionTwo}></div>
-          <div className={classes.sectionThree}></div>
-        </div>
+        <ModalHeader setIsOpen={setIsOpen} />
+        <ModalBody>
+          <DurationSetting />
+          <SettingPartial title="FONT">
+            <FontCircle
+              fontFamily={theme.fontFamily.kumbhSans}
+              setSelectedFont={setSelectedFont}
+              selectedFont={selectedFont}
+            />
+            <FontCircle
+              fontFamily={theme.fontFamily.robotoSlab}
+              setSelectedFont={setSelectedFont}
+              selectedFont={selectedFont}
+            />
+            <FontCircle
+              fontFamily={theme.fontFamily.spaceMono}
+              setSelectedFont={setSelectedFont}
+              selectedFont={selectedFont}
+            />
+          </SettingPartial>
+          <SettingPartial title="COLOR">
+            <ColorCircle
+              backgroundColor={theme.colorFamily.salmonRed}
+              selectedColor={selectedColor}
+              setSelecedColor={setSelecedColor}
+            />
+            <ColorCircle
+              backgroundColor={theme.colorFamily.babyBlue}
+              selectedColor={selectedColor}
+              setSelecedColor={setSelecedColor}
+            />
+            <ColorCircle
+              backgroundColor={theme.colorFamily.heliotropeViolet}
+              selectedColor={selectedColor}
+              setSelecedColor={setSelecedColor}
+            />
+          </SettingPartial>
+        </ModalBody>
       </div>
     </Portal>
   );
