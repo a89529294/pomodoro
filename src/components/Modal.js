@@ -9,8 +9,8 @@ import arrowUp from '../assets/icon-arrow-up.svg';
 import arrowDown from '../assets/icon-arrow-down.svg';
 
 const mobileSettingsModalPadding = '24px';
-const modalHeaderHeight = 13;
-const modalBodyHeight = 100 - modalHeaderHeight;
+const mobileSettingsModalPaddingLarge = '28px';
+
 const greyBorder = '1px solid #E3E1E1';
 
 const useStyles = makeStyles({
@@ -24,20 +24,18 @@ const useStyles = makeStyles({
     borderRadius: '15px',
   },
   modalHeader: (props) => ({
-    height: modalHeaderHeight + '%',
     display: 'flex',
     justifyContent: 'space-between',
     paddingLeft: mobileSettingsModalPadding,
     paddingRight: mobileSettingsModalPadding,
     paddingTop: mobileSettingsModalPadding,
+    paddingBottom: mobileSettingsModalPaddingLarge,
     fontSize: '20px',
     fontFamily: props.fontFamilyOne,
     borderBottom: greyBorder,
     color: props.backgroundControlBar,
   }),
-  modalBody: {
-    height: modalBodyHeight + '%',
-  },
+  modalBody: {},
   sectionOne: {
     padding: mobileSettingsModalPadding,
     paddingBottom: 0,
