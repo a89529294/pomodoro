@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import settingsIcon from '../assets/icon-settings.svg';
-import closeIcon from '../assets/icon-close.svg';
 import { useThemeStore } from '../contexts/useThemeStore';
 import Clock from './Clock';
-import Portal from './Portal';
+import Modal from './Modal';
 
 const mobileSettingsModalPadding = '24px';
 const modalHeaderHeight = 13;
@@ -43,9 +42,13 @@ const useStyles = makeStyles({
     paddingTop: mobileSettingsModalPadding,
     fontSize: '20px',
     fontFamily: props.fontFamilyForTitle,
+    borderBottom: '1px solid #E3E1E1',
   }),
   modalBody: {
     height: modalBodyHeight + '%',
+    paddingLeft: mobileSettingsModalPadding,
+    paddingRight: mobileSettingsModalPadding,
+    paddingTop: mobileSettingsModalPadding,
   },
   settingsCloseIcon: {
     width: '16px',
@@ -60,7 +63,9 @@ export default function Content() {
   const modalRef = useRef();
 
   const handleClickOutsideModal = (e) => {
-    if (!modalRef.current.contains(e.target)) setIsOpen(false);
+    console.log(modalRef.current);
+    console.log(e.target);
+    if (!modalRef?.current?.contains(e.target)) setIsOpen(false);
   };
 
   useEffect(() => {
@@ -81,22 +86,7 @@ export default function Content() {
           onClick={() => setIsOpen(true)}
         />
       </div>
-      {isOpen && (
-        <Portal>
-          <div className={classes.modal} ref={modalRef}>
-            <div className={classes.modalHeader}>
-              <div>Settings</div>
-              <img
-                src={closeIcon}
-                alt="close icon"
-                className={classes.settingsCloseIcon}
-                onClick={() => setIsOpen(false)}
-              />
-            </div>
-            <div className={classes.modalBody}></div>
-          </div>
-        </Portal>
-      )}
+      {isOpen && <Modal setIsOpen={setIsOpen} ref={modalRef} />}
     </div>
   );
 }
