@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/styles';
+import { createUseStyles } from 'react-jss';
 import { useThemeStore } from '../contexts/useThemeStore';
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
   root: {
     height: '8.4%',
     display: 'flex',

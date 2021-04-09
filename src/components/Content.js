@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { createUseStyles } from 'react-jss';
 
 import settingsIcon from '../assets/icon-settings.svg';
 import { useThemeStore } from '../contexts/useThemeStore';
@@ -10,7 +10,7 @@ const mobileSettingsModalPadding = '24px';
 const modalHeaderHeight = 13;
 const modalBodyHeight = 100 - modalHeaderHeight;
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
   root: {
     flexGrow: 1,
     display: 'flex',

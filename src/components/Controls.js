@@ -1,9 +1,9 @@
-import { makeStyles } from '@material-ui/styles';
+import { createUseStyles } from 'react-jss';
 
 import { useModeDispatch, useModeStore } from '../contexts/useModeStore';
 import { useThemeStore } from '../contexts/useThemeStore';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createUseStyles({
   root: {
     height: '23%',
     display: 'flex',
@@ -17,12 +17,13 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: '8px 6px',
     borderRadius: '31.5px',
+    maxWidth: '95vw',
   }),
   controlButton: (props) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: props.fontFamilyOne,
+    fontFamily: props.activeFont,
     fontSize: '12px',
     color: props.textColorOne,
     opacity: 0.4,
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
     color: props.background,
   }),
-}));
+});
 
 const ControlButton = ({ state }) => {
   const theme = useThemeStore();
@@ -52,7 +53,7 @@ const ControlButton = ({ state }) => {
       className={`${classes.controlButton} ${
         currentModeLabel === state.label ? classes.active : ''
       }`}
-      onClick={() => dispatch(state)}
+      onClick={() => dispatch({ type: 'switchMode', value: state })}
     >
       {state.label}
     </div>
@@ -60,7 +61,8 @@ const ControlButton = ({ state }) => {
 };
 
 export default function Controls() {
-  const classes = useStyles();
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
   const mode = useModeStore();
   return (
     <div className={classes.root}>

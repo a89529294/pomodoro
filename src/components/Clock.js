@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { createUseStyles } from 'react-jss';
 
 import { useThemeStore } from '../contexts/useThemeStore';
 import { useModeStore } from '../contexts/useModeStore';
@@ -8,7 +8,7 @@ import useInterval from '../hooks/useInterval';
 
 const durationControlFontSize = '16px';
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
   clock: {
     width: '300px',
     height: '300px',
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
     position: 'relative',
   }),
   duration: (props) => ({
-    fontFamily: props.fontFamilyOne,
+    fontFamily: props.activeFont,
     fontSize: '80px',
     color: props.textColorOne,
     width: '100%',
@@ -71,7 +71,7 @@ const useStyles = makeStyles({
     top: '80%',
     left: '50%',
     transform: 'translate(-50%,-50%)',
-    fontFamily: props.fontFamilyOne,
+    fontFamily: props.activeFont,
     fontSize: durationControlFontSize,
     letterSpacing: durationControlFontSize,
 
@@ -129,7 +129,7 @@ const Clock = () => {
     setCurrentDuration(mode.currentMode.maxDuration);
     setProgress(0);
     setClockState(clockStateEnum.idle);
-  }, [mode.currentMode]);
+  }, [mode.currentMode, mode.currentMode.maxDuration]);
 
   const handleClockState = () => {
     const { idle, active, paused, complete } = clockStateEnum;

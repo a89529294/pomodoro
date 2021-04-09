@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { createUseStyles } from 'react-jss';
 
 import Title from './components/Title';
 import Controls from './components/Controls';
@@ -6,7 +6,7 @@ import Content from './components/Content';
 import { ModeProvider } from './contexts/useModeStore';
 import { useThemeStore } from './contexts/useThemeStore';
 
-const useStyles = makeStyles({
+const useStyles = createUseStyles({
   root: (props) => ({
     backgroundColor: props.background,
     height: 'calc(var(--vh, 1vh) * 100)',
