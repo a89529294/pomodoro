@@ -2,6 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { useModeDispatch, useModeStore } from '../contexts/useModeStore';
 import { useThemeStore } from '../contexts/useThemeStore';
+import { tabletWidth } from '../utils/constants';
 
 const useStyles = createUseStyles({
   root: {
@@ -24,7 +25,6 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center',
     fontFamily: props.activeFont,
-    fontSize: '12px',
     color: props.textColorOne,
     opacity: 0.4,
     borderRadius: '26.5px',
@@ -34,6 +34,16 @@ const useStyles = createUseStyles({
       opacity: 1,
     },
   }),
+  [`@media (max-width: ${tabletWidth - 1}px)`]: {
+    controlButton: {
+      fontSize: '12px',
+    },
+  },
+  [`@media (min-width: ${tabletWidth}px)`]: {
+    controlButton: {
+      fontSize: '16px',
+    },
+  },
   active: (props) => ({
     backgroundColor: props.activeColor,
     opacity: 1,

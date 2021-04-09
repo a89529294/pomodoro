@@ -82,6 +82,7 @@ export default function Content() {
           alt="settings icon"
           className={classes.settingsIcon}
           onClick={() => setIsOpen(true)}
+          onContextMenu={(e) => e.preventDefault()}
         />
       </div>
       {isOpen && <Modal setIsOpen={setIsOpen} ref={modalRef} />}

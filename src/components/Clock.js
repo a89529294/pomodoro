@@ -5,8 +5,10 @@ import { useThemeStore } from '../contexts/useThemeStore';
 import { useModeStore } from '../contexts/useModeStore';
 import convertSecondsIntoMinutes from '../utils/timeUtils';
 import useInterval from '../hooks/useInterval';
+import { tabletWidth } from '../utils/constants';
 
-const durationControlFontSize = '16px';
+const durationControlFontSize = '14px';
+const durationControlFontSizeLarge = '18px';
 
 const useStyles = createUseStyles({
   clock: {
@@ -18,6 +20,10 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      width: '410px',
+      height: '410px',
+    },
   },
   innerClock: (props) => ({
     width: '268px',
@@ -27,6 +33,10 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      width: '366px',
+      height: '366px',
+    },
   }),
   circularProgressBarOuter: (props) => ({
     width: '248px',
@@ -38,6 +48,10 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      width: '339px',
+      height: '339px',
+    },
   }),
   circularProgressBarInner: (props) => ({
     width: '230px',
@@ -48,6 +62,10 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      width: '319px',
+      height: '319px',
+    },
   }),
   duration: (props) => ({
     fontFamily: props.activeFont,
@@ -57,6 +75,9 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      fontSize: '100px',
+    },
   }),
   durationSingleChar: {
     width: '22%',
@@ -79,9 +100,16 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      fontSize: durationControlFontSizeLarge,
+      letterSpacing: durationControlFontSizeLarge,
+    },
   }),
   durationControl: {
     marginRight: '-' + durationControlFontSize,
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      marginRight: '-' + durationControlFontSizeLarge,
+    },
   },
 });
 
