@@ -6,15 +6,19 @@ import { useThemeStore } from '../contexts/useThemeStore';
 import { useModeStore } from '../contexts/useModeStore';
 import closeIcon from '../assets/icon-close.svg';
 import arrowUp from '../assets/icon-arrow-up.svg';
+import arrowUpDarken from '../assets/icon-arrow-up-darken.svg';
 import arrowDown from '../assets/icon-arrow-down.svg';
+import arrowDownDarken from '../assets/icon-arrow-down-darken.svg';
 import checkMark from '../assets/checkMark.svg';
 
 const mobileSettingsModalPadding = '24px';
 const mobileSettingsModalPaddingLarge = '28px';
 const letterSpacing = '4px';
 const inputBackgroundColor = '#EFF1FA';
-
 const greyBorder = '1px solid #E3E1E1';
+const btnHeight = 53;
+const btnWidth = 140;
+const btnBorderRadius = 26.5;
 
 const useStyles = makeStyles({
   modal: {
@@ -25,6 +29,7 @@ const useStyles = makeStyles({
     marginRight: 'auto',
     marginTop: '40px',
     borderRadius: '15px',
+    position: 'relative',
   },
   modalHeader: (props) => ({
     display: 'flex',
@@ -78,6 +83,9 @@ const useStyles = makeStyles({
     backgroundColor: inputBackgroundColor,
     borderRadius: '10px',
     padding: '12px 16px',
+    '&:hover > $durationSetterInputContent': {
+      backgroundColor: 'red',
+    },
   }),
   durationSetterInputContent: {
     display: 'flex',
@@ -95,9 +103,19 @@ const useStyles = makeStyles({
     display: 'block',
     width: '12px',
     height: '4px',
+    // backgroundSize: '100% 100%',
+    // backgroundImage: `url(${arrowUp})`,
     '&:first-child': {
       marginBottom: '9px',
     },
+  },
+  up: {
+    // backgroundImage: `url(${arrowUp})`,
+    // '&:hover': { backgroundImage: `url(${arrowUpDarken})` },
+  },
+  down: {
+    // backgroundImage: `url(${arrowDown})`,
+    // '&:hover': { backgroundImage: `url(${arrowDownDarken})` },
   },
   settingPartial: {
     padding: mobileSettingsModalPadding,
@@ -146,6 +164,39 @@ const useStyles = makeStyles({
     width: '15px',
     height: '10px',
   },
+  applyButton: (props) => ({
+    width: btnWidth + 'px',
+    height: btnHeight + 'px',
+    backgroundColor: props.activeColor,
+    color: 'white',
+    borderRadius: btnBorderRadius + 'px',
+    position: 'absolute',
+    top: `calc(100% - ${btnHeight / 2}px)`,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: props.fontFamilyOne,
+    fontSize: '16px',
+    '& span': {
+      lineHeight: '80%',
+      marginTop: '5px',
+    },
+  }),
+  applyButtonShade: (props) => ({
+    width: btnWidth + 'px',
+    height: btnHeight + 'px',
+    borderRadius: btnBorderRadius + 'px',
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    opacity: 0,
+    '&:hover': {
+      opacity: 0.2,
+    },
+  }),
 });
 
 const ModalHeader = ({ setIsOpen }) => {
@@ -194,17 +245,9 @@ const MaxDurationSetter = ({ mode }) => {
       <div className={classes.durationSetterInput}>
         <div className={classes.durationSetterInputContent}>
           <div className={classes.durationDisplay}>{mode.maxDuration / 60}</div>
-          <div className={classes.durationChangeContainer}>
-            <img
-              src={arrowUp}
-              alt="arrow up"
-              className={classes.durationArrow}
-            />
-            <img
-              src={arrowDown}
-              alt="arrow down"
-              className={classes.durationArrow}
-            />
+          <div className={classes.durationArrowContainer}>
+            <div className={`${classes.durationArrow} ${classes.up}`} />
+            <div className={`${classes.durationArrow} ${classes.down}`} />
           </div>
         </div>
       </div>
@@ -271,6 +314,17 @@ const ColorCircle = ({ backgroundColor, selectedColor, setSelecedColor }) => {
   );
 };
 
+const ApplyButton = () => {
+  const theme = useThemeStore();
+  const classes = useStyles(theme);
+  return (
+    <div className={classes.applyButton}>
+      <span>Apply</span>
+      <div className={classes.applyButtonShade}></div>
+    </div>
+  );
+};
+
 const Modal = forwardRef(({ setIsOpen }, ref) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
@@ -321,6 +375,7 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
             />
           </SettingPartial>
         </ModalBody>
+        <ApplyButton />
       </div>
     </Portal>
   );
