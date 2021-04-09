@@ -207,16 +207,18 @@ const useStyles = createUseStyles({
   }),
 });
 
-const ModalHeader = ({ setIsOpen, tempFont }) => {
+const ModalHeader = ({ setIsOpen, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
   return (
     <div className={classes.modalHeader}>
       <div
         style={{
-          fontFamily: tempFont,
-          marginTop: tempFont === theme.fontFamily.kumbhSans ? '4px' : '0px',
-          lineHeight: tempFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
+          fontFamily: selectedFont,
+          marginTop:
+            selectedFont === theme.fontFamily.kumbhSans ? '4px' : '0px',
+          lineHeight:
+            selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
         }}
       >
         Settings
@@ -237,7 +239,7 @@ const ModalBody = ({ children }) => {
   return <div className={classes.modalBody}>{children}</div>;
 };
 
-const DurationSetting = ({ children, tempFont }) => {
+const DurationSetting = ({ children, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
   return (
@@ -245,9 +247,11 @@ const DurationSetting = ({ children, tempFont }) => {
       <div
         className={classes.sectionOneHeader}
         style={{
-          fontFamily: tempFont,
-          marginTop: tempFont === theme.fontFamily.kumbhSans ? '3px' : '0px',
-          lineHeight: tempFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
+          fontFamily: selectedFont,
+          marginTop:
+            selectedFont === theme.fontFamily.kumbhSans ? '3px' : '0px',
+          lineHeight:
+            selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
         }}
       >
         TIME(MINUTES)
@@ -257,10 +261,9 @@ const DurationSetting = ({ children, tempFont }) => {
   );
 };
 
-const MaxDurationSetter = ({ mode, duration, setDuration, tempFont }) => {
+const MaxDurationSetter = ({ mode, duration, setDuration, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
-  //   const [duration, setDuration] = useState(mode.maxDuration / 60);
 
   const between0and60 = (value) => {
     if (value < 0) return 0;
@@ -292,8 +295,9 @@ const MaxDurationSetter = ({ mode, duration, setDuration, tempFont }) => {
       <div
         className={classes.durationSetterLabel}
         style={{
-          fontFamily: tempFont,
-          marginTop: tempFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
+          fontFamily: selectedFont,
+          marginTop:
+            selectedFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
         }}
       >
         {mode.label}
@@ -307,10 +311,9 @@ const MaxDurationSetter = ({ mode, duration, setDuration, tempFont }) => {
             onBlur={handleDurationBlur}
             type="number"
             style={{
-              fontFamily: tempFont,
-
+              fontFamily: selectedFont,
               marginTop:
-                tempFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
+                selectedFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
             }}
           ></input>
           <div className={classes.durationArrowContainer}>
@@ -329,7 +332,7 @@ const MaxDurationSetter = ({ mode, duration, setDuration, tempFont }) => {
   );
 };
 
-const SettingPartial = ({ children, title, tempFont }) => {
+const SettingPartial = ({ children, title, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
   return (
@@ -338,14 +341,15 @@ const SettingPartial = ({ children, title, tempFont }) => {
         <div
           className={classes.settingPartialHeader}
           style={{
-            fontFamily: tempFont,
+            fontFamily: selectedFont,
           }}
         >
           <spam
             style={{
-              marginTop: tempFont === theme.fontFamily.kumbhSans ? '3px' : 0,
+              marginTop:
+                selectedFont === theme.fontFamily.kumbhSans ? '3px' : 0,
               lineHeight:
-                tempFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
+                selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
             }}
           >
             {title}
@@ -357,18 +361,12 @@ const SettingPartial = ({ children, title, tempFont }) => {
   );
 };
 
-const FontCircle = ({
-  fontFamily,
-  setSelectedFont,
-  selectedFont,
-  setTempFont,
-}) => {
+const FontCircle = ({ fontFamily, setSelectedFont, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
 
   const handleSelectFont = () => {
     setSelectedFont(fontFamily);
-    setTempFont(fontFamily);
   };
 
   return (
@@ -384,18 +382,12 @@ const FontCircle = ({
   );
 };
 
-const ColorCircle = ({
-  backgroundColor,
-  selectedColor,
-  setSelecedColor,
-  setTempColor,
-}) => {
+const ColorCircle = ({ backgroundColor, selectedColor, setSelecedColor }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
 
   const handleSelectColor = () => {
     setSelecedColor(backgroundColor);
-    setTempColor(backgroundColor);
   };
 
   return (
@@ -415,7 +407,7 @@ const ColorCircle = ({
   );
 };
 
-const ApplyButton = ({ onClick, tempFont, tempColor }) => {
+const ApplyButton = ({ onClick, selectedFont, selectedColor }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
 
@@ -423,9 +415,9 @@ const ApplyButton = ({ onClick, tempFont, tempColor }) => {
     <div
       className={classes.applyButton}
       onClick={onClick}
-      style={{ backgroundColor: tempColor }}
+      style={{ backgroundColor: selectedColor }}
     >
-      <span style={{ fontFamily: tempFont }}>Apply</span>
+      <span style={{ fontFamily: selectedFont }}>Apply</span>
       <div className={classes.applyButtonShade}></div>
     </div>
   );
@@ -451,9 +443,6 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
   const [selectedFont, setSelectedFont] = useState(theme.activeFont);
   const [selectedColor, setSelecedColor] = useState(theme.activeColor);
 
-  const [tempFont, setTempFont] = useState(null);
-  const [tempColor, setTempColor] = useState(null);
-
   const handleApplySetting = () => {
     const newModesObj = {
       pomodoro: { label: 'pomodoro', maxDuration: pomodoroDuration * 60 },
@@ -472,73 +461,67 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
   return (
     <Portal>
       <div className={classes.modal} ref={ref}>
-        <ModalHeader setIsOpen={setIsOpen} tempFont={tempFont} />
+        <ModalHeader setIsOpen={setIsOpen} selectedFont={selectedFont} />
         <ModalBody>
-          <DurationSetting tempFont={tempFont}>
+          <DurationSetting selectedFont={selectedFont}>
             <MaxDurationSetter
               mode={mode.modesObj.pomodoro}
               duration={pomodoroDuration}
               setDuration={setPomodoroDuration}
-              tempFont={tempFont}
+              selectedFont={selectedFont}
             />
             <MaxDurationSetter
               mode={mode.modesObj.shortBreak}
               duration={shortBreakDuration}
               setDuration={setShortBreakDuration}
-              tempFont={tempFont}
+              selectedFont={selectedFont}
             />
             <MaxDurationSetter
               mode={mode.modesObj.longBreak}
               duration={longBreakDuration}
               setDuration={setLongBreakDuration}
-              tempFont={tempFont}
+              selectedFont={selectedFont}
             />
           </DurationSetting>
-          <SettingPartial title="FONT" tempFont={tempFont}>
+          <SettingPartial title="FONT" selectedFont={selectedFont}>
             <FontCircle
               fontFamily={theme.fontFamily.kumbhSans}
               setSelectedFont={setSelectedFont}
               selectedFont={selectedFont}
-              setTempFont={setTempFont}
             />
             <FontCircle
               fontFamily={theme.fontFamily.robotoSlab}
               setSelectedFont={setSelectedFont}
               selectedFont={selectedFont}
-              setTempFont={setTempFont}
             />
             <FontCircle
               fontFamily={theme.fontFamily.spaceMono}
               setSelectedFont={setSelectedFont}
               selectedFont={selectedFont}
-              setTempFont={setTempFont}
             />
           </SettingPartial>
-          <SettingPartial title="COLOR" tempFont={tempFont}>
+          <SettingPartial title="COLOR" selectedFont={selectedFont}>
             <ColorCircle
               backgroundColor={theme.colorFamily.salmonRed}
               selectedColor={selectedColor}
               setSelecedColor={setSelecedColor}
-              setTempColor={setTempColor}
             />
             <ColorCircle
               backgroundColor={theme.colorFamily.babyBlue}
               selectedColor={selectedColor}
               setSelecedColor={setSelecedColor}
-              setTempColor={setTempColor}
             />
             <ColorCircle
               backgroundColor={theme.colorFamily.heliotropeViolet}
               selectedColor={selectedColor}
               setSelecedColor={setSelecedColor}
-              setTempColor={setTempColor}
             />
           </SettingPartial>
         </ModalBody>
         <ApplyButton
           onClick={handleApplySetting}
-          tempFont={tempFont}
-          tempColor={tempColor}
+          selectedFont={selectedFont}
+          selectedColor={selectedColor}
         />
       </div>
     </Portal>
