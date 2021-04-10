@@ -1,23 +1,23 @@
-import { forwardRef, useState } from 'react';
-import { createUseStyles } from 'react-jss';
+import { forwardRef, useState } from "react";
+import { createUseStyles } from "react-jss";
 
-import Portal from './Portal';
-import { useThemeStore, useThemeDispatch } from '../contexts/useThemeStore';
-import { useModeStore, useModeDispatch } from '../contexts/useModeStore';
-import { tabletWidth } from '../utils/constants';
-import closeIcon from '../assets/icon-close.svg';
-import arrowUp from '../assets/icon-arrow-up.svg';
-import arrowUpDarken from '../assets/icon-arrow-up-darken.svg';
-import arrowDown from '../assets/icon-arrow-down.svg';
-import arrowDownDarken from '../assets/icon-arrow-down-darken.svg';
-import checkMark from '../assets/checkMark.svg';
+import Portal from "./Portal";
+import { useThemeStore, useThemeDispatch } from "../contexts/useThemeStore";
+import { useModeStore, useModeDispatch } from "../contexts/useModeStore";
+import { tabletWidth } from "../utils/constants";
+import closeIcon from "../assets/icon-close.svg";
+import arrowUp from "../assets/icon-arrow-up.svg";
+import arrowUpDarken from "../assets/icon-arrow-up-darken.svg";
+import arrowDown from "../assets/icon-arrow-down.svg";
+import arrowDownDarken from "../assets/icon-arrow-down-darken.svg";
+import checkMark from "../assets/checkMark.svg";
 
-const mobileSettingsModalPadding = '24px';
-const tabletSettingsModalPadding = '40px';
-const mobileSettingsModalPaddingLarge = '28px';
-const letterSpacing = '4px';
-const inputBackgroundColor = '#EFF1FA';
-const greyBorder = '1px solid #E3E1E1';
+const mobileSettingsModalPadding = "24px";
+const tabletSettingsModalPadding = "40px";
+const mobileSettingsModalPaddingLarge = "28px";
+const letterSpacing = "4px";
+const inputBackgroundColor = "#EFF1FA";
+const greyBorder = "1px solid #E3E1E1";
 const btnHeight = 53;
 const btnWidth = 140;
 const btnBorderRadius = 26.5;
@@ -25,28 +25,28 @@ const durationArrowWidth = 12;
 
 const useStyles = createUseStyles({
   modal: {
-    width: '330px',
-    height: '550px',
-    backgroundColor: 'white',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: '40px',
-    borderRadius: '15px',
-    position: 'relative',
+    width: "330px",
+    height: "550px",
+    backgroundColor: "white",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "40px",
+    borderRadius: "15px",
+    position: "relative",
     [`@media (min-width: ${tabletWidth}px)`]: {
-      width: '540px',
-      height: '490px',
+      width: "540px",
+      height: "490px",
       margin: 0,
     },
   },
   modalHeader: (props) => ({
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     paddingLeft: mobileSettingsModalPadding,
     paddingRight: mobileSettingsModalPadding,
     paddingTop: mobileSettingsModalPadding,
     paddingBottom: mobileSettingsModalPaddingLarge,
-    fontSize: '20px',
+    fontSize: "20px",
     fontFamily: props.activeFont,
     borderBottom: greyBorder,
     color: props.backgroundControlBar,
@@ -56,82 +56,83 @@ const useStyles = createUseStyles({
   },
   durationSetting: {
     [`@media (min-width: ${tabletWidth}px)`]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap',
+      display: "flex",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
     },
   },
   sectionOneHeader: (props) => ({
-    fontSize: '11px',
+    fontSize: "11px",
     fontFamily: props.activeFont,
     letterSpacing: letterSpacing,
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '18px',
-    width: '100%',
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "18px",
+    width: "100%",
   }),
   settingsCloseIcon: {
-    width: '16px',
-    height: '16px',
+    width: "16px",
+    height: "16px",
   },
   maxDurationSetter: {
-    display: 'inline-flex',
-    justifyContent: 'space-between',
-    marginBottom: '8px',
-    '&:last-child': {
-      // marginBottom: 0,
+    display: "inline-flex",
+    justifyContent: "space-between",
+    marginBottom: "8px",
+    width: "100%",
+    "&:last-child": {
+      marginBottom: 0,
     },
     [`@media (min-width: ${tabletWidth}px)`]: {
-      flexDirection: 'column',
-      '&:last-child': {
-        marginBottom: '8px',
+      flexDirection: "column",
+      "&:last-child": {
+        marginBottom: "8px",
       },
     },
   },
   durationSetterLabel: (props) => ({
     fontFamily: props.activeFont,
-    fontSize: '12px',
+    fontSize: "12px",
     color: props.background,
     opacity: 0.4,
-    display: 'flex',
-    alignItems: 'center',
+    display: "flex",
+    alignItems: "center",
   }),
   durationSetterInput: (props) => ({
     color: props.backgroundControlBar,
     fontFamily: props.activeFont,
-    fontSize: '14px',
-    width: '140px',
-    height: '40px',
+    fontSize: "14px",
+    width: "140px",
+    height: "40px",
     backgroundColor: inputBackgroundColor,
-    borderRadius: '10px',
-    padding: '12px 16px',
-    '&:hover $durationArrow$up': {
+    borderRadius: "10px",
+    padding: "12px 16px",
+    "&:hover $durationArrow$up": {
       backgroundImage: `url(${arrowUpDarken})`,
     },
-    '&:hover $durationArrow$down': {
+    "&:hover $durationArrow$down": {
       backgroundImage: `url(${arrowDownDarken})`,
     },
   }),
   durationSetterInputContent: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    height: '100%',
-    width: '100%',
+    display: "flex",
+    justifyContent: "space-between",
+    height: "100%",
+    width: "100%",
   },
   durationDisplay: {
-    height: '100%',
-    width: `calc(100% - ${durationArrowWidth + 'px'})`,
-    display: 'flex',
-    alignItems: 'center',
-    all: 'unset',
+    height: "100%",
+    width: `calc(100% - ${durationArrowWidth + "px"})`,
+    display: "flex",
+    alignItems: "center",
+    all: "unset",
   },
   durationArrow: {
-    display: 'block',
-    width: durationArrowWidth + 'px',
-    height: '4px',
-    backgroundSize: '100% 100%',
-    '&:first-child': {
-      marginBottom: '9px',
+    display: "block",
+    width: durationArrowWidth + "px",
+    height: "4px",
+    backgroundSize: "100% 100%",
+    "&:first-child": {
+      marginBottom: "9px",
     },
   },
   up: {
@@ -149,101 +150,101 @@ const useStyles = createUseStyles({
     },
   },
   settingPartialContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     borderTop: greyBorder,
     [`@media (min-width: ${tabletWidth}px)`]: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+      flexDirection: "row",
+      justifyContent: "space-between",
       paddingTop: mobileSettingsModalPadding,
     },
   },
   settingPartialHeader: (props) => ({
     fontFamily: props.activeFont,
-    fontSize: '11px',
+    fontSize: "11px",
     letterSpacing: letterSpacing,
     color: props.backgroundControlBar,
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '18px',
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "18px",
     marginTop: mobileSettingsModalPadding,
   }),
   settingPartialContent: {
-    width: '152px',
-    display: 'flex',
-    justifyContent: 'space-between',
+    width: "152px",
+    display: "flex",
+    justifyContent: "space-between",
   },
   circle: (props) => ({
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     color: props.background,
-    fontSize: '15px',
+    fontSize: "15px",
     backgroundColor: inputBackgroundColor,
-    transition: 'transform 1s',
-    cursor: 'pointer',
-    '& span': {
+    transition: "transform 1s",
+    cursor: "pointer",
+    "& span": {
       opacity: 0.73,
     },
-    '&.active': {
+    "&.active": {
       backgroundColor: props.backgroundControlBar,
-      color: 'white',
+      color: "white",
     },
-    '&:hover': {
-      transform: 'scale(1.2)',
+    "&:hover": {
+      transform: "scale(1.2)",
     },
   }),
   checkMark: {
-    width: '15px',
-    height: '10px',
+    width: "15px",
+    height: "10px",
   },
   applyButton: (props) => ({
-    width: btnWidth + 'px',
-    height: btnHeight + 'px',
+    width: btnWidth + "px",
+    height: btnHeight + "px",
     backgroundColor: props.activeColor,
-    color: 'white',
-    borderRadius: btnBorderRadius + 'px',
-    position: 'absolute',
+    color: "white",
+    borderRadius: btnBorderRadius + "px",
+    position: "absolute",
     top: `calc(100% - ${btnHeight / 2}px)`,
-    left: '50%',
-    transform: 'translateX(-50%)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     fontFamily: props.activeFont,
-    fontSize: '16px',
-    '& span': {
-      lineHeight: '80%',
-      marginTop: '5px',
+    fontSize: "16px",
+    "& span": {
+      lineHeight: "80%",
+      marginTop: "5px",
     },
   }),
   applyButtonShade: (props) => ({
-    width: btnWidth + 'px',
-    height: btnHeight + 'px',
-    borderRadius: btnBorderRadius + 'px',
-    backgroundColor: 'white',
-    position: 'absolute',
+    width: btnWidth + "px",
+    height: btnHeight + "px",
+    borderRadius: btnBorderRadius + "px",
+    backgroundColor: "white",
+    position: "absolute",
     top: 0,
     left: 0,
     opacity: 0,
-    '&:hover': {
+    "&:hover": {
       opacity: 0.2,
     },
   }),
   [`@media (min-width: ${tabletWidth}px)`]: {
     modalHeader: () => ({
-      fontSize: '28px',
+      fontSize: "28px",
       padding: tabletSettingsModalPadding,
     }),
     sectionOneHeader: () => ({
-      justifyContent: 'flex-start',
+      justifyContent: "flex-start",
     }),
     durationSetterLabel: {
-      marginBottom: '10px',
+      marginBottom: "10px",
     },
     section: () => ({
       padding: `${mobileSettingsModalPadding} ${tabletSettingsModalPadding}`,
@@ -260,16 +261,15 @@ const ModalHeader = ({ setIsOpen, selectedFont }) => {
         style={{
           fontFamily: selectedFont,
           marginTop:
-            selectedFont === theme.fontFamily.kumbhSans ? '4px' : '0px',
+            selectedFont === theme.fontFamily.kumbhSans ? "4px" : "0px",
           lineHeight:
-            selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
-        }}
-      >
+            selectedFont === theme.fontFamily.kumbhSans ? "80%" : "100%",
+        }}>
         Settings
       </div>
       <img
         src={closeIcon}
-        alt="close icon"
+        alt='close icon'
         className={classes.settingsCloseIcon}
         onClick={() => setIsOpen(false)}
       />
@@ -293,11 +293,10 @@ const DurationSetting = ({ children, selectedFont }) => {
         style={{
           fontFamily: selectedFont,
           marginTop:
-            selectedFont === theme.fontFamily.kumbhSans ? '3px' : '0px',
+            selectedFont === theme.fontFamily.kumbhSans ? "3px" : "0px",
           lineHeight:
-            selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
-        }}
-      >
+            selectedFont === theme.fontFamily.kumbhSans ? "80%" : "100%",
+        }}>
         TIME(MINUTES)
       </div>
       {children}
@@ -321,7 +320,7 @@ const MaxDurationSetter = ({ mode, duration, setDuration, selectedFont }) => {
   };
 
   const handleDurationBlur = (e) => {
-    if (e.target.value === '') {
+    if (e.target.value === "") {
       setDuration(mode.maxDuration / 60);
     }
   };
@@ -341,9 +340,8 @@ const MaxDurationSetter = ({ mode, duration, setDuration, selectedFont }) => {
         style={{
           fontFamily: selectedFont,
           marginTop:
-            selectedFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
-        }}
-      >
+            selectedFont === theme.fontFamily.kumbhSans ? "2px" : "0px",
+        }}>
         {mode.label}
       </div>
       <div className={classes.durationSetterInput}>
@@ -353,13 +351,12 @@ const MaxDurationSetter = ({ mode, duration, setDuration, selectedFont }) => {
             value={duration}
             onChange={handleDurationChange}
             onBlur={handleDurationBlur}
-            type="number"
+            type='number'
             style={{
               fontFamily: selectedFont,
               marginTop:
-                selectedFont === theme.fontFamily.kumbhSans ? '2px' : '0px',
-            }}
-          ></input>
+                selectedFont === theme.fontFamily.kumbhSans ? "2px" : "0px",
+            }}></input>
           <div className={classes.durationArrowContainer}>
             <div
               className={`${classes.durationArrow} ${classes.up}`}
@@ -386,16 +383,14 @@ const SettingPartial = ({ children, title, selectedFont }) => {
           className={classes.settingPartialHeader}
           style={{
             fontFamily: selectedFont,
-          }}
-        >
+          }}>
           <span
             style={{
               marginTop:
-                selectedFont === theme.fontFamily.kumbhSans ? '3px' : 0,
+                selectedFont === theme.fontFamily.kumbhSans ? "3px" : 0,
               lineHeight:
-                selectedFont === theme.fontFamily.kumbhSans ? '80%' : '100%',
-            }}
-          >
+                selectedFont === theme.fontFamily.kumbhSans ? "80%" : "100%",
+            }}>
             {title}
           </span>
         </div>
@@ -416,11 +411,10 @@ const FontCircle = ({ fontFamily, setSelectedFont, selectedFont }) => {
   return (
     <div
       className={`${classes.circle} ${
-        fontFamily === selectedFont ? 'active' : ''
+        fontFamily === selectedFont ? "active" : ""
       }`}
       style={{ fontFamily }}
-      onClick={handleSelectFont}
-    >
+      onClick={handleSelectFont}>
       <span>Aa</span>
     </div>
   );
@@ -438,12 +432,11 @@ const ColorCircle = ({ backgroundColor, selectedColor, setSelecedColor }) => {
     <div
       className={classes.circle}
       style={{ backgroundColor }}
-      onClick={handleSelectColor}
-    >
+      onClick={handleSelectColor}>
       {selectedColor === backgroundColor && (
         <img
           src={checkMark}
-          alt="check mark svg"
+          alt='check mark svg'
           className={classes.checkMark}
         />
       )}
@@ -459,8 +452,7 @@ const ApplyButton = ({ onClick, selectedFont, selectedColor }) => {
     <div
       className={classes.applyButton}
       onClick={onClick}
-      style={{ backgroundColor: selectedColor }}
-    >
+      style={{ backgroundColor: selectedColor }}>
       <span style={{ fontFamily: selectedFont }}>Apply</span>
       <div className={classes.applyButtonShade}></div>
     </div>
@@ -489,14 +481,14 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
 
   const handleApplySetting = () => {
     const newModesObj = {
-      pomodoro: { label: 'pomodoro', maxDuration: pomodoroDuration * 60 },
+      pomodoro: { label: "pomodoro", maxDuration: pomodoroDuration * 60 },
       shortBreak: {
-        label: 'short break',
+        label: "short break",
         maxDuration: shortBreakDuration * 60,
       },
-      longBreak: { label: 'long break', maxDuration: longBreakDuration * 60 },
+      longBreak: { label: "long break", maxDuration: longBreakDuration * 60 },
     };
-    modeDispatch({ type: 'modifyMode', value: newModesObj });
+    modeDispatch({ type: "modifyMode", value: newModesObj });
     themeDispatch({ activeColor: selectedColor, activeFont: selectedFont });
 
     setIsOpen(false);
@@ -527,7 +519,7 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
               selectedFont={selectedFont}
             />
           </DurationSetting>
-          <SettingPartial title="FONT" selectedFont={selectedFont}>
+          <SettingPartial title='FONT' selectedFont={selectedFont}>
             <FontCircle
               fontFamily={theme.fontFamily.kumbhSans}
               setSelectedFont={setSelectedFont}
@@ -544,7 +536,7 @@ const Modal = forwardRef(({ setIsOpen }, ref) => {
               selectedFont={selectedFont}
             />
           </SettingPartial>
-          <SettingPartial title="COLOR" selectedFont={selectedFont}>
+          <SettingPartial title='COLOR' selectedFont={selectedFont}>
             <ColorCircle
               backgroundColor={theme.colorFamily.salmonRed}
               selectedColor={selectedColor}
