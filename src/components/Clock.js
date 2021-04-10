@@ -79,14 +79,15 @@ const useStyles = createUseStyles({
       fontSize: '100px',
     },
   }),
-  durationSingleChar: {
+  durationSingleChar: (props) => ({
     width: '22%',
     display: 'flex',
     justifyContent: 'center',
     '&:nth-child(3)': {
       width: '8%',
     },
-  },
+    paddingBottom: props.activeFont !== props.fontFamily.kumbhSans ? '20px' : 0,
+  }),
   durationControlContainer: (props) => ({
     position: 'absolute',
     top: '80%',
