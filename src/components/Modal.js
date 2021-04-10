@@ -1,9 +1,10 @@
-import { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 import Portal from './Portal';
 import { useThemeStore, useThemeDispatch } from '../contexts/useThemeStore';
 import { useModeStore, useModeDispatch } from '../contexts/useModeStore';
+import { tabletWidth } from '../utils/constants';
 import closeIcon from '../assets/icon-close.svg';
 import arrowUp from '../assets/icon-arrow-up.svg';
 import arrowUpDarken from '../assets/icon-arrow-up-darken.svg';
@@ -12,6 +13,7 @@ import arrowDownDarken from '../assets/icon-arrow-down-darken.svg';
 import checkMark from '../assets/checkMark.svg';
 
 const mobileSettingsModalPadding = '24px';
+const tabletSettingsModalPadding = '40px';
 const mobileSettingsModalPaddingLarge = '28px';
 const letterSpacing = '4px';
 const inputBackgroundColor = '#EFF1FA';
@@ -31,6 +33,11 @@ const useStyles = createUseStyles({
     marginTop: '40px',
     borderRadius: '15px',
     position: 'relative',
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      width: '540px',
+      height: '490px',
+      margin: 0,
+    },
   },
   modalHeader: (props) => ({
     display: 'flex',
@@ -44,10 +51,15 @@ const useStyles = createUseStyles({
     borderBottom: greyBorder,
     color: props.backgroundControlBar,
   }),
-
-  modalBody: {},
   section: {
     padding: mobileSettingsModalPadding,
+  },
+  durationSetting: {
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+    },
   },
   sectionOneHeader: (props) => ({
     fontSize: '11px',
@@ -56,17 +68,21 @@ const useStyles = createUseStyles({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '18px',
+    width: '100%',
   }),
   settingsCloseIcon: {
     width: '16px',
     height: '16px',
   },
   maxDurationSetter: {
-    display: 'flex',
+    display: 'inline-flex',
     justifyContent: 'space-between',
     marginBottom: '8px',
     '&:last-child': {
       marginBottom: 0,
+    },
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      flexDirection: 'column',
     },
   },
   durationSetterLabel: (props) => ({
@@ -81,8 +97,8 @@ const useStyles = createUseStyles({
     color: props.backgroundControlBar,
     fontFamily: props.activeFont,
     fontSize: '14px',
-    maxHeight: '17px',
-    width: '108px',
+    width: '140px',
+    height: '40px',
     backgroundColor: inputBackgroundColor,
     borderRadius: '10px',
     padding: '12px 16px',
@@ -124,12 +140,21 @@ const useStyles = createUseStyles({
   settingPartial: {
     padding: mobileSettingsModalPadding,
     paddingTop: 0,
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      padding: `${mobileSettingsModalPadding} ${tabletSettingsModalPadding}`,
+      paddingTop: 0,
+    },
   },
   settingPartialContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     borderTop: greyBorder,
+    [`@media (min-width: ${tabletWidth}px)`]: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingTop: mobileSettingsModalPadding,
+    },
   },
   settingPartialHeader: (props) => ({
     fontFamily: props.activeFont,
@@ -157,6 +182,7 @@ const useStyles = createUseStyles({
     fontSize: '15px',
     backgroundColor: inputBackgroundColor,
     transition: 'transform 1s',
+    cursor: 'pointer',
     '& span': {
       opacity: 0.73,
     },
@@ -205,6 +231,21 @@ const useStyles = createUseStyles({
       opacity: 0.2,
     },
   }),
+  [`@media (min-width: ${tabletWidth}px)`]: {
+    modalHeader: () => ({
+      fontSize: '28px',
+      padding: tabletSettingsModalPadding,
+    }),
+    sectionOneHeader: () => ({
+      justifyContent: 'flex-start',
+    }),
+    durationSetterLabel: {
+      marginBottom: '10px',
+    },
+    section: () => ({
+      padding: `${mobileSettingsModalPadding} ${tabletSettingsModalPadding}`,
+    }),
+  },
 });
 
 const ModalHeader = ({ setIsOpen, selectedFont }) => {
@@ -243,7 +284,7 @@ const DurationSetting = ({ children, selectedFont }) => {
   const theme = useThemeStore();
   const classes = useStyles(theme);
   return (
-    <div className={classes.section}>
+    <div className={`${classes.section} ${classes.durationSetting}`}>
       <div
         className={classes.sectionOneHeader}
         style={{
@@ -344,7 +385,7 @@ const SettingPartial = ({ children, title, selectedFont }) => {
             fontFamily: selectedFont,
           }}
         >
-          <spam
+          <span
             style={{
               marginTop:
                 selectedFont === theme.fontFamily.kumbhSans ? '3px' : 0,
@@ -353,7 +394,7 @@ const SettingPartial = ({ children, title, selectedFont }) => {
             }}
           >
             {title}
-          </spam>
+          </span>
         </div>
         <div className={classes.settingPartialContent}>{children}</div>
       </div>

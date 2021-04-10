@@ -106,6 +106,7 @@ const useStyles = createUseStyles({
     },
   }),
   durationControl: {
+    cursor: 'pointer',
     marginRight: '-' + durationControlFontSize,
     [`@media (min-width: ${tabletWidth}px)`]: {
       marginRight: '-' + durationControlFontSizeLarge,

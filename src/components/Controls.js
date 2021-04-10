@@ -30,6 +30,7 @@ const useStyles = createUseStyles({
     borderRadius: '26.5px',
     padding: '18px 23px',
     whiteSpace: 'nowrap',
+    cursor: 'pointer',
     '&:hover': {
       opacity: 1,
     },

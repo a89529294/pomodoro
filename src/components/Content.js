@@ -24,6 +24,9 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  settingsIcon: {
+    cursor: 'pointer',
+  },
   modal: {
     width: '330px',
     height: '550px',

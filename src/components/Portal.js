@@ -12,14 +12,7 @@ const Portal = ({ children }) => {
    */
   if (!el.current) {
     el.current = document.createElement('div');
-    el.current.style.cssText = `
-    position:absolute;
-    height: calc(var(--vh, 1vh) * 100);
-    width:100vw;
-    top:0;
-    left:0;
-    z-index:1000;
-    `;
+    el.current.classList.add('setting-portal');
   }
 
   useEffect(() => {
