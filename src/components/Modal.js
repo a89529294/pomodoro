@@ -79,10 +79,13 @@ const useStyles = createUseStyles({
     justifyContent: 'space-between',
     marginBottom: '8px',
     '&:last-child': {
-      marginBottom: 0,
+      // marginBottom: 0,
     },
     [`@media (min-width: ${tabletWidth}px)`]: {
       flexDirection: 'column',
+      '&:last-child': {
+        marginBottom: '8px',
+      },
     },
   },
   durationSetterLabel: (props) => ({
