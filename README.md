@@ -2,7 +2,7 @@
 
 ## Live Site
 
-https://pomodoro-98h6wxn44-a89529294.vercel.app/
+https://pomodoro-ashen.vercel.app/
 
 ### Stack
 
