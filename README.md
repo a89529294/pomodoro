@@ -1,4 +1,6 @@
-# Stack
+# Pomodoro App
+
+### Stack
 
 CRA + react-jss
 
